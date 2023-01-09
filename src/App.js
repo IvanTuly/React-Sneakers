@@ -1,89 +1,38 @@
+import Card from "./components/Card/Card";
+import Header from "./components/Header";
+import Drawer from "./components/Drawer";
+
+const arr = [
+  {name: 'Man Sneakers Nike MDB', price: '149', imageUrl: "/img/sneakers/sneaker 2.png"},
+  {name: 'Man Sneaker New Balance 574', price: '105', imageUrl: "/img/sneakers/sneaker 5.png"},
+  {name: 'Man Sneakers Adidas NMD', price: '129', imageUrl: "/img/sneakers/sneaker 1.png"}
+];
+
 function App() {
-  return <div className="wrapper clear">
+  return ( <div className="wrapper clear">
+    <Drawer/>
+    <Header/>
 
-  <header className="d-flex justify-between align-center">
-    <div className="headerLeft d-flex align-center">
-      <img width={40} height={40} src="/img/logo.png" />
-      <div className="headerInfo">
-        <h3 className="text-uppercase">React Sneakers</h3>
-        <p className="opacity-5">Best sneakers store</p>
+    <div className="content p-40">
+      <div className="d-flex align-center justify-between mb-40">
+        <h1>All sneakers</h1>
+        <div className="search-block d-flex">
+          <img src="/img/search.svg" alt="Search" />
+          <input placeholder="Search..." />
+        </div>
+      </div>
+
+      <div className="d-flex">
+        {/* react может сам проходить по массиву, поэтому необходимо его получить forEach не подходит, тк ничего не возвращает. Метод map filter find... - возвращают данные */}
+        {/* через map прогоняем весь массив и через пропсы передаем имя цену и url в компонент Card */}
+        {arr.map((obj) => (
+        <Card title={obj.name} price={obj.price} imageUrl={obj.imageUrl} />
+      ))}
       </div>
     </div>
-    <ul className="headerRight d-flex">
-      <li className="mr-30">
-      <img width={18} height={18} src="/img/cart.svg" />
-        <span>130 $</span>
-      </li>
-      <li>
-      <img width={18} height={18} src="/img/account.svg" />
-      </li>
-    </ul>
-  </header>
 
-  <div className="content p-40">
-    <h1 className="mb-40">All sneakers</h1>
-    
-    <div className="d-flex">
-      <div className="card">
-      <img width={133} height={112} src="/img/sneakers/sneaker 0.png" alt="Sneakers"/>
-      <h5>Man Sneakers Nike MDB</h5>
-      <div className="d-flex justify-between align-center">
-        <div className="d-flex flex-column">
-          <span>price:</span>
-          <b>150 $</b>
-        </div>
-        <button className="button">
-        <img width={11} height={11} src="/img/plus.svg" alt=""/>
-        </button>
-      </div>
-      </div>
-
-      <div className="card">
-      <img width={133} height={112} src="/img/sneakers/sneaker 1.png" alt="Sneakers"/>
-      <h5>Man Sneakers Nike MDB</h5>
-      <div className="d-flex justify-between align-center">
-        <div className="d-flex flex-column">
-          <span>price:</span>
-          <b>150 $</b>
-        </div>
-        <button className="button">
-        <img width={11} height={11} src="/img/plus.svg" alt=""/>
-        </button>
-      </div>
-      </div>
-
-      <div className="card">
-      <img width={133} height={112} src="/img/sneakers/sneaker 2.png" alt="Sneakers"/>
-      <h5>Man Sneakers Nike MDB</h5>
-      <div className="d-flex justify-between align-center">
-        <div className="d-flex flex-column">
-          <span>price:</span>
-          <b>150 $</b>
-        </div>
-        <button className="button">
-        <img width={11} height={11} src="/img/plus.svg" alt=""/>
-        </button>
-      </div>
-      </div>
-
-      <div className="card">
-      <img width={133} height={112} src="/img/sneakers/sneaker 3.png" alt="Sneakers"/>
-      <h5>Man Sneakers Nike MDB</h5>
-      <div className="d-flex justify-between align-center">
-        <div className="d-flex flex-column">
-          <span>price:</span>
-          <b>150 $</b>
-        </div>
-        <button className="button">
-        <img width={11} height={11} src="/img/plus.svg" alt=""/>
-        </button>
-      </div>
-      </div>
-      
-    </div>
   </div>
-
-</div>
+  );
 }
 
 export default App;
