@@ -1,10 +1,36 @@
+import React from "react";
 import Card from "../components/Card/Card";
-function Home({items,
+
+
+function Home({
+    items,
     searchValue,
     setSearchValue,
     onChangeSearchInput,
     onAddToFavorite,
-    onAddToCart}) {
+    onAddToCart,
+    isLoading}) {
+
+    const renderItems = () => {
+        // react может сам проходить по массиву, поэтому необходимо его получить forEach не подходит, тк ничего не возвращает. Метод map filter find... - возвращают данные 
+        // filter проходится по массиву и исключает все элементы item у которых нет того, что написано в searchValue чтобы не было проблем с регистром переводим все в нижний 
+        // через map прогоняем весь массив и через пропсы передаем имя цену и url в компонент Card 
+        //   если загрузка идет, то пепердаем массив из 10 undefined объектов, если загрузка не идет - передаем items
+        const filtredItems = items.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
+        return (isLoading ? [...Array(8)] : filtredItems).map((item, index) => (
+            
+          <Card 
+              key={index}
+              onFavorite ={(obj) => onAddToFavorite(obj)}
+              //получаем объект с конкретными кроссовками из Card.js можно было вместо obj взять просто item отсюда
+              onPlus ={(obj) => onAddToCart(obj)}
+              loading={isLoading}
+              //в конце передаем объект item
+              {... item}
+          />
+      ))
+
+    }
     return (
         <div className="content p-40">
         <div className="d-flex align-center justify-between mb-40">
@@ -18,23 +44,7 @@ function Home({items,
         </div>
   
         <div className="d-flex flex-wrap">
-            
-          {/* react может сам проходить по массиву, поэтому необходимо его получить forEach не подходит, тк ничего не возвращает. Метод map filter find... - возвращают данные */}
-          {/* filter проходится по массиву и исключает все элементы item у которых нет того, что написано в searchValue чтобы не было проблем с регистром переводим все в нижний */}
-          {/* через map прогоняем весь массив и через пропсы передаем имя цену и url в компонент Card */}
-          {items.filter((item) => item.name.toLowerCase().includes(searchValue.toLowerCase())).map((item) => (
- 
-          <Card 
-            key={item.id}
-            id={item.id} 
-            title={item.name} 
-            price={item.price} 
-            imageUrl={item.imageUrl}
-            onFavorite ={(obj) => onAddToFavorite(obj)}
-            //получаем объект с конкретными кроссовками из Card.js можно было вместо obj взять просто item отсюда
-            onPlus ={(obj) => onAddToCart(obj)}
-          />
-        ))}
+          {renderItems()}
         </div>
       </div>
     
