@@ -8,6 +8,7 @@ import Favorites from "./pages/Favorites";
 import Header from "./components/Header";
 import Drawer from "./components/Drawer/Drawer";
 import Orders from "./pages/Orders";
+import Slider from "./components/Slider/Slider";
 
 
 //Context - 
@@ -150,6 +151,8 @@ function App() {
     
      
       <Header onClickCart={()=>setCartOpened(true)}/>
+
+
 
       <Routes>
           <Route path="/"

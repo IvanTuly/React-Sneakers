@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "../components/Card/Card";
+import Slider from "../components/Slider/Slider";
 
 
 function Home({
@@ -17,7 +18,9 @@ function Home({
         // через map прогоняем весь массив и через пропсы передаем имя цену и url в компонент Card 
         //   если загрузка идет, то пепердаем массив из 10 undefined объектов, если загрузка не идет - передаем items
         const filtredItems = items.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
-        return (isLoading ? [...Array(8)] : filtredItems).map((item, index) => (
+        return (
+            
+        isLoading ? [...Array(8)] : filtredItems).map((item, index) => (
             
           <Card 
               key={index}
@@ -32,7 +35,9 @@ function Home({
 
     }
     return (
+        
         <div className="content p-40">
+             <Slider/>
         <div className="d-flex align-center justify-between mb-40">
           {/* если что-то есть в поиске - то выводим это, если поиск пуст - то "All sneakers" */}
           <h1>{searchValue ? `Search: ${searchValue}` : 'All sneakers'}</h1>
