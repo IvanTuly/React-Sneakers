@@ -38,6 +38,7 @@ function Card({
         setIsFavorite(!isFavorite)
     }
 
+
     return (
         // подключаем стиль через модуль, подключаем как объект."имя класса"
         <div className={styles.card}>
@@ -68,8 +69,13 @@ function Card({
                                 <span>price:</span>
                                 <b>{price} $</b>
                             </div>
-                            <img className={styles.plus} onClick={onClickPlus} src={isItemAdded(parentId) ? "/img/addButtonOn.svg" : "/img/addButtonOff.svg"} alt="Plus Button" />
-            
+                            {/* если передали onPlus - отображаем кнопку +, если нет - не отображаем */}
+                        {onPlus && (<img 
+                            className={styles.plus} 
+                            onClick={onClickPlus} 
+                            src={isItemAdded(parentId) ? "/img/addButtonOn.svg" : "/img/addButtonOff.svg"} 
+                            alt="Plus Button" 
+                            />)}            
                         </div>
                     </>
 
