@@ -6,25 +6,9 @@ import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 
 import Header from "./components/Header";
-import Drawer from "./components/Drawer";
+import Drawer from "./components/Drawer/Drawer";
+import Orders from "./pages/Orders";
 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAvuYu4ZkW-CrE-8hvbhmaO0M0zbhdQ3SM",
-  authDomain: "react-sneakers-5eab4.firebaseapp.com",
-  projectId: "react-sneakers-5eab4",
-  storageBucket: "react-sneakers-5eab4.appspot.com",
-  messagingSenderId: "661660216494",
-  appId: "1:661660216494:web:b7dc3abf9f3ff5066a113f"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
 
 //Context - 
 export const AppContext = React.createContext({});
@@ -44,83 +28,102 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(true)
 
 
-
-
   //такой код React.useEffect вызовет fetch запрос только один раз, тк мы не задаем функцию рендера  []
   React.useEffect(() => {
       //сам useEffect не может быть async - поэтому создаем асинхронную функцию внутри
       //используем, чтобы контролировать порядок загрузки данных, иначе может быть что корзина и изранные загрузятся позже основных данных и не повлияют на визуальное отображение
-      async function fetchData(){
-        //устанавливаем отображение страницы в загрузке данных
-        setIsLoading(true);
+      
+        async function fetchData(){
+          try {
+          //устанавливаем отображение страницы в загрузке данных
+          setIsLoading(true);
 
-        //берем данные для корзины
-        const cartResponse = await axios.get("https://63bd3185d6600623889cf1e5.mockapi.io/cart")
-        //берем данные для favorites
-        const favoritesResponse = await axios.get("https://63bfc2a0a177ed68abb77341.mockapi.io/favorites")
-        //Через библиотеку axios отправляя get запрос получаем сразу результат без обработки json
-        const itemsResponse = await axios.get("https://63bd3185d6600623889cf1e5.mockapi.io/items")
+          //Через библиотеку axios отправляя get запрос получаем сразу результат без обработки json кроссовок, корзины и избранных
+          //Promise.all позволяет отправить сразу несколько запросов. promise - который будет выполнять массив prommise axios.get - promise и вернет массив выполненных promise
+          //если хотя бы один запрос не выполнется, то мы сразу получим error, хотя другие запросы могли пройти - иногда такой вариант может не подходить при разработке
+          const [cartResponse, favoritesResponse,itemsResponse] = await Promise.all([
+            axios.get("https://react-sneakers-5eab4-default-rtdb.europe-west1.firebasedatabase.app/cart.json"), 
+            axios.get("https://react-sneakers-5eab4-default-rtdb.europe-west1.firebasedatabase.app/favorites.json"), 
+            axios.get("https://react-sneakers-5eab4-default-rtdb.europe-west1.firebasedatabase.app/items.json")
+          ]);
+  
+          //устанавливаем отображение страницы c данными
+          setIsLoading(false);
+  
+          //если в firebase нет данных он передает null а не пустой объект
+          cartResponse.data === null ? setCartItems([]) : setCartItems(Object.values(cartResponse.data));
+  
+          favoritesResponse.data === null ? setFavorites([]) : setFavorites(Object.values(favoritesResponse.data));
+  
+          setItems(Object.values(itemsResponse.data))
+  
+        } catch (error) {
+          alert("Unable to load data")
+          console.log(error)
+        }
+        }
+  
+        fetchData();
+        
 
-        //устанавливаем отображение страницы c данными
-        setIsLoading(false);
 
-        setCartItems(cartResponse.data)
-        setFavorites(favoritesResponse.data)
-        setItems(itemsResponse.data)
-
-      }
-
-      fetchData();
   }, [])
 
   //функция добавления в корзину конкретных кроссовок
   const onAddToCart = (obj) =>{
-    console.log(obj)
     //добавляем в массив путем замены предыдущих данных на обновленные
     //prev - прыдудущие данные. берем предыдущие данные, вызываем функцию которая к ним добавит объект и передает все в переменную
     try {
       if(cartItems.find(item => Number(item.parentId) === Number(obj.parentId))) {
-        axios.delete(`https://63bd3185d6600623889cf1e5.mockapi.io/cart/${obj.parentId}`)
-         setCartItems(prev => prev.filter(item => Number(item.parentId) !==Number(obj.parentId)))
+        setCartItems(prev => prev.filter(item => Number(item.parentId) !==Number(obj.parentId)));
+        axios.delete(`https://react-sneakers-5eab4-default-rtdb.europe-west1.firebasedatabase.app/cart/key_${obj.parentId}.json`);
       }
       else {
-        // через библиотеку axios отправляем post запрос  
-        axios.post("https://63bd3185d6600623889cf1e5.mockapi.io/cart", obj)
+        // через библиотеку axios отправляем post запрос ключ - это длина массива корзины
+        axios.put(`https://react-sneakers-5eab4-default-rtdb.europe-west1.firebasedatabase.app/cart/key_${obj.parentId}.json`, JSON.stringify(obj))
         setCartItems(prev => [...prev, obj])
         // .then(res =>setCartItems(prev => [...prev, res.data]))
       }
     }catch(error){
       alert("Unable to add sneakers")
+      console.log(error)
     }
   }
+
   const onRemoveCartItem = (parentId) => {
-    console.log("id = "+parentId)
-    //prev - прыдудущие данные. при помощи filter отфильтровываем элемент с id который надо удалить
+    try {
+          //prev - прыдудущие данные. при помощи filter отфильтровываем элемент с id который надо удалить
     setCartItems(prev => prev.filter(item => Number(item.parentId) !== Number(parentId)));
     //через библиотеку axios отправляем delete запрос  
-    axios.delete(`https://63bd3185d6600623889cf1e5.mockapi.io/cart/${parentId}`)
+    axios.delete(`https://react-sneakers-5eab4-default-rtdb.europe-west1.firebasedatabase.app/cart/key_${parentId}.json`)
+      
+    } catch (error) {
+      alert("Unable to remove Item from cart")
+      console.log(error)
+    }
   }
 
-    //функция добавления в избранное используем LS тк в mocApi только 2 бесплатных массива :(
-    const onAddToFavorite = async (obj) =>{
+  //функция добавления в избранное используем LS тк в mocApi только 2 бесплатных массива :(
+  const onAddToFavorite = async (obj) =>{
       try {
               //ищем объект с таким же id как и у передаваемого, если есть. то удаляем
       if(favorites.find(item => Number(item.id) === Number(obj.id))){
-        axios.delete(`https://63bfc2a0a177ed68abb77341.mockapi.io/favorites/${obj.id}`);
+        axios.delete(`https://react-sneakers-5eab4-default-rtdb.europe-west1.firebasedatabase.app/favorites/key_${obj.id}.json`);
         //удаляем из массива отфильтровывая по id
         setFavorites((prev) => [...prev.filter((item) => Number(item.id) !== Number(obj.id))]);
       } else{
         //когда дождется ответа, то запишет его в переменную resp - работает используя async. В принципе аналогично .then
         // {data} - из ответа берем ответ.data и записываем в переменную data
-        const {data} = await axios.post(`https://63bfc2a0a177ed68abb77341.mockapi.io/favorites/`, obj)
+        const {data} = await axios.put(`https://react-sneakers-5eab4-default-rtdb.europe-west1.firebasedatabase.app/favorites/key_${obj.id}.json`, JSON.stringify(obj))
 
         setFavorites((prev) => [...prev, data]);
       }
 
       } catch (error){
         alert("Unable to add favorites")
+        console.log(error)
       }
-    }
+  }
 
   //функция поиска. таким образом динамически меняем содержимое input и переменной useState searchValue
   const onChangeSearchInput = (event) =>{
@@ -130,15 +133,22 @@ function App() {
   }
 
   const isItemAdded = (parentId) => {
-    //проходит по массиву объектов и метод  some возвращает try если такой id найден
-    return cartItems.some((obj) => Number(obj.parentId) === Number(parentId));
+    if (parentId !=null){
+      //проходит по массиву объектов и метод  some возвращает try если такой id найден
+      return cartItems.some((obj) => Number(obj.parentId) === Number(parentId));
+    }
   }
 
   return ( 
+
     //все приложение будет знать, что есть в AppContext
-  <AppContext.Provider value={{items, cartItems, favorites, isItemAdded, onAddToFavorite, setCartOpened, setCartItems}}>
+  <AppContext.Provider value={{items, cartItems, favorites, isItemAdded, onAddToFavorite, onAddToCart, setCartOpened, setCartItems}}>
     <div className="wrapper clear">
-      {cartOpened ? <Drawer items={cartItems} onClose={()=>setCartOpened(false)} onRemoveItem={onRemoveCartItem} /> :null }
+    
+    
+      <Drawer items={cartItems} onClose={()=>setCartOpened(false)} onRemoveItem={onRemoveCartItem } opened={cartOpened} />
+    
+     
       <Header onClickCart={()=>setCartOpened(true)}/>
 
       <Routes>
@@ -160,6 +170,12 @@ function App() {
           <Route path="/favorites" 
             element={
               <Favorites/>
+            }
+          ></Route>
+
+          <Route path="/orders" 
+            element={
+              <Orders/>
             }
           ></Route>
         </Routes>
