@@ -20,12 +20,6 @@
     //когда отображаем делаем visible
     visibility: visible;
     opacity: 1;
-
-    #root{
-
-        overflow:hidden;
-        height: 100vh;
-    }
    
     //анимация движения корзины справа налево при открытии
     .drawer{
@@ -39,6 +33,7 @@
     position: absolute;
     width: 420px;
     height: 100vh;
+    overflow: auto;
     right: 0;
     background: #FFFFFF;
     box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.1);
@@ -51,18 +46,104 @@
       margin: 0;
       font-size: 24px;
     }
-  
+
     .items{
-      flex: 1;
       margin-bottom: 40px;
       overflow: auto;
     }
   }
 
-  .cartTitle{
-    margin-right: 15px;
-    flex: 1;
+  .cartItem{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border: 1px solid #f3f3f3;
+    border-radius: 0px;
+    overflow: hidden;
+    padding: 0 20px 0 0;
+  
+    .cartItemImg{
+      margin-right: 20px;
+      border: 1px solid black;
+      object-fit: cover;
+       width: 75px;
+       height: 75px;
+    }
+
+    .cartItemInfo{
+      display: flex;
+      justify-content: space-between;
+      flex: 1;
+
+      .cartTitle{
+        margin-right: 15px;
+        flex: 1;
+      }
+    }
+  
+    p {
+      font-size: 14px;
+      margin: 0;
+    }
+  
+    b {
+      font-size: 13px;
+    }
+  
+    .removeBtn {
+      opacity: 0.5;
+      transition: opacity 0.15s ease-in-out;
+      cursor: pointer;
+  
+      &:hover{
+        opacity: 1;
+      }
+    }
   }
 
+  .cartTotalBlock {
+    ul{
+      display: block;
+      margin-bottom: 35px !important;
+  
+  
+      li{
+        display: flex;
+        align-items: flex-end;
+        margin-bottom: 20px;
+      }
+      div {
+        flex: 1;
+        height: 1px;
+        border-bottom: 1px dashed #dfdfdf;
+        position: relative;
+        top: -4px;
+        margin: 0 7px;
+      }
+    }
+  
+    .greenButton {
+      position: relative;
+  
+      &:disabled{
+        animation: button-loading 1.2s ease-in-out infinite;
+      }
+  
+      &:hover{
+        img{
+          transform: translateX(5px);
+        }
+      }
+  
+      img{
+        position: absolute;
+        right: 30px;
+        top: 20px;
+        transition: transform 0.15s ease-in-out;
+  
+      }
+    }
+  
+  }
 
 

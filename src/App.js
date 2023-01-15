@@ -149,7 +149,7 @@ function App() {
 
     //все приложение будет знать, что есть в AppContext
   <AppContext.Provider value={{items, offers, cartItems, favorites, isItemAdded, onAddToFavorite, onAddToCart, setCartOpened, setCartItems}}>
-    <div className="wrapper clear">
+    <div className={cartOpened ? "wrapper clear overflowHidden":' wrapper clear'}>
     
     
       <Drawer items={cartItems} onClose={()=>setCartOpened(false)} onRemoveItem={onRemoveCartItem } opened={cartOpened} />

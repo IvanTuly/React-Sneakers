@@ -58,13 +58,13 @@ function Drawer({ onClose, onRemoveItem, opened, items = [] }) {
                 { 
                     items.length > 0 ? 
                         <>
-                            <div className="items">
+                            <div className={styles.items}>
  
                                 {items.map((obj) => (
-                                    <div key={obj.id} className="cartItem d-flex align-center mb-20">
-                                        <img className="cartItemImg" src={process.env.PUBLIC_URL+obj.imageUrl} alt="Sneakers" />
+                                    <div key={obj.id} className={styles.cartItem}>
+                                        <img className={styles.cartItemImg} src={process.env.PUBLIC_URL+obj.imageUrl} alt="Sneakers" />
 
-                                        <div className='d-flex justify-between flex'>
+                                        <div className={styles.cartItemInfo}>
                                             <div className={styles.cartTitle}>
                                                  <p mb-5>{obj.title}</p>
                                                 <b>{obj.price} $</b>
@@ -77,7 +77,7 @@ function Drawer({ onClose, onRemoveItem, opened, items = [] }) {
                                 ))}
                             </div>
 
-                            <div className="cartTotalBlock">
+                            <div className={styles.cartTotalBlock}>
                                 <ul>
                                     <li>
                                         <span>Sum:</span>
