@@ -21,7 +21,7 @@ function Card({
 }) {
 
     //из useContext берем функцию isItemAdded
-    const { isItemAdded } = React.useContext(AppContext);
+    const { isItemAdded, isItemFavorited } = React.useContext(AppContext);
 
     // hook useState - для отслеживания состояния. React.useState(false) - значение по умолчанию. isAdded-переменная, setIsAdded - функция которая меняет значение
     const [isFavorite, setIsFavorite] = React.useState(favorited);
@@ -64,13 +64,23 @@ function Card({
                     <>
                     <div className={styles.sneakerPhoto}>
 	                    <img className={styles.photo} src={process.env.PUBLIC_URL + imageUrl} alt="Sneaker photo"/>
-                        <img onClick={onClickFavorite} className={styles.like} src={isFavorite ? process.env.PUBLIC_URL + "/img/heart-button-on.svg" : process.env.PUBLIC_URL + "/img/heart-button-off.svg" } alt="Like"/>
+                        <img 
+                        onClick={onClickFavorite} 
+                        className={styles.like} 
+                        src={isItemFavorited(parentId) ? process.env.PUBLIC_URL + "/img/heart-button-on.svg" : process.env.PUBLIC_URL + "/img/heart-button-off.svg" } 
+                        alt="Like"/>
        	                <p className={styles.price}>{price} $</p>                 
                     </div>
                     <div className={styles.title}>{title}</div>
                     <div className={styles.subTitle}>Originals</div>
                     {/* если передали onPlus - отображаем кнопку +, если нет - не отображаем */}
-                    {onPlus && (<img className={styles.cart} onClick={onClickPlus} src={isItemAdded(parentId) ? process.env.PUBLIC_URL + "/img/addButtonOn.svg" : process.env.PUBLIC_URL + "/img/addButtonOff.svg" } alt="Plus Button" />)}
+                    {onPlus && (
+                    <img 
+                    className={styles.cart} 
+                    onClick={onClickPlus} 
+                    src={isItemAdded(parentId) ? process.env.PUBLIC_URL + "/img/addButtonOn.svg" : process.env.PUBLIC_URL + "/img/addButtonOff.svg" } 
+                    alt="Plus Button" />
+                    )}
                     </>
 
                             

@@ -145,10 +145,17 @@ function App() {
     }
   }
 
+  const isItemFavorited = (parentId) => {
+    if (parentId !=null){
+      //проходит по массиву объектов и метод  some возвращает try если такой id найден
+      return favorites.some((obj) => Number(obj.parentId) === Number(parentId));
+    }
+  }
+
   return ( 
 
     //все приложение будет знать, что есть в AppContext
-  <AppContext.Provider value={{items, offers, cartItems, favorites, isItemAdded, onAddToFavorite, onAddToCart, setCartOpened, setCartItems}}>
+  <AppContext.Provider value={{items, offers, cartItems, favorites, isItemAdded, isItemFavorited, onAddToFavorite, onAddToCart, setCartOpened, setCartItems}}>
     <div className={cartOpened ? "wrapper clear overflowHidden":' wrapper clear'}>
     
     
