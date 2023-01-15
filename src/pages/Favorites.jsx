@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "../components/Card/Card";
 import {AppContext} from "../App"
+import EmptyArrayBlock from "../components/EmptyArrayBlock";
 
 function Favorites() {
   
@@ -9,6 +10,8 @@ function Favorites() {
     const {favorites, onAddToFavorite, onAddToCart} = React.useContext(AppContext);
 
     return (
+
+      favorites.length > 0 ? 
         <div className="content p-40">
         <div className="d-flex align-center justify-between mb-40">
           <h1>My Favorites</h1>
@@ -30,6 +33,8 @@ function Favorites() {
         ))}
         </div>
       </div>
+      :
+      <EmptyArrayBlock pageTitle={"My Favorites"} title={"No Favorites"} subTitle={"Add sneakers to your favorites and they will appear here"}/>
 
     )
 }

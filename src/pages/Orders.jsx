@@ -2,9 +2,10 @@ import React from "react";
 import Card from "../components/Card/Card";
 import {AppContext} from "../App"
 import axios from "axios";
+import EmptyArrayBlock from "../components/EmptyArrayBlock";
 
 export function Orders() {
-    const {onAddToCart, onAddToFavorite} =React.useContext(AppContext)
+    const {onAddToFavorite} =React.useContext(AppContext)
     //массив для файла с данными заказов
     const [orders, setOrders] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(true)
@@ -34,6 +35,8 @@ export function Orders() {
 
     return (
        
+         orders.length > 0 ? 
+
         <div className="content p-40">
         <div className="d-flex align-center justify-between mb-40">
           <h1>My Orders</h1>
@@ -55,6 +58,8 @@ export function Orders() {
         ))}
         </div>
       </div>
+      :
+      <EmptyArrayBlock pageTitle={"My Orders"} title={"No Orders"} subTitle={"Make an order and it will appear here"}/>
 
     )
 }

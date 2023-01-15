@@ -37,9 +37,9 @@ function Home({
 
     return (
         
-        <div className="content p-40">
+        <div className="homeContent content p-40">
             <Slider loading={isLoading}/>
-        <div className="d-flex align-center justify-between mb-40">
+        <div className="d-flex align-center justify-between mb-40 mt-40">
           {/* если что-то есть в поиске - то выводим это, если поиск пуст - то "All sneakers" */}
           <h1>{searchValue ? `Search: ${searchValue}` : 'All sneakers'}</h1>
           <div className="search-block d-flex">
@@ -49,7 +49,7 @@ function Home({
           </div>
         </div>
   
-        <div className="d-flex flex-wrap">
+        <div className="d-flex flex-wrap justify-center">
           {renderItems()}
         </div>
       </div>
