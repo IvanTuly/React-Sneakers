@@ -1,0 +1,46 @@
+header {
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border-bottom: 1px solid #eaeaea;
+  
+  
+    
+    img {
+      margin-right: 15px;
+      fill: #fff;
+    }
+  
+    h3,p {
+      color: white;
+      margin: 0;
+    }
+  }
+
+  .headerLeft{
+    display:  flex;  
+    align-items:center;
+    justify-content: center;
+    
+  }
+  
+  .headerRight{
+    display: flex;
+    justify-content: center;
+  }
+
+  .cart{
+    margin: 0 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    font-size: 20px;
+    // align-items: flex-start;
+  }
+
+  .accountAndFavorites{
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+  }

@@ -51,7 +51,7 @@ function Drawer({ onClose, onRemoveItem, opened, items = [] }) {
         <div className={`${styles.overlay} ${opened ? styles.overlayVisible:''}`}>
             <div className={styles.drawer}>
                 <h2 className="d-flex justify-between mb-30">
-                    Cart <img onClick={onClose} className="removeBtn cu-p" src="/img/remove-button.svg" alt="Close Button" />
+                    Cart <img onClick={onClose} className="removeBtn cu-p" src={process.env.PUBLIC_URL +"/img/remove-button.svg"} alt="Close Button" />
                 </h2>
 
 
@@ -62,14 +62,17 @@ function Drawer({ onClose, onRemoveItem, opened, items = [] }) {
  
                                 {items.map((obj) => (
                                     <div key={obj.id} className="cartItem d-flex align-center mb-20">
-                                        <img className="cartItemImg mr-20" width={70} height={70} src={obj.imageUrl} alt="Sneakers" />
+                                        <img className="cartItemImg" src={process.env.PUBLIC_URL+obj.imageUrl} alt="Sneakers" />
 
-                                        <div className="mr-15">
-                                            <p mb-5>{obj.title}</p>
-                                            <b>{obj.price}</b>
+                                        <div className='d-flex justify-between flex'>
+                                            <div className={styles.cartTitle}>
+                                                 <p mb-5>{obj.title}</p>
+                                                <b>{obj.price} $</b>
+                                            </div>
+                                            {/* при удалении берем id кроссовок, который генерирует mocapi и передаем его через props, чтобы потом при помощи id удалить его в бэке */}
+                                            <img onClick={() => onRemoveItem(obj.id)} className="removeBtn" src={process.env.PUBLIC_URL +"/img/remove-button.svg"} alt="Remove Button" />
                                         </div>
-                                        {/* при удалении берем id кроссовок, который генерирует mocapi и передаем его через props, чтобы потом при помощи id удалить его в бэке */}
-                                        <img onClick={() => onRemoveItem(obj.id)} className="removeBtn" src="/img/remove-button.svg" alt="Remove Button" />
+
                                     </div>
                                 ))}
                             </div>
@@ -88,7 +91,7 @@ function Drawer({ onClose, onRemoveItem, opened, items = [] }) {
                                     </li>
                                 </ul>
 
-                                <button disabled={isLoading} onClick={onClickOrder} className="greenButton">Checkout <img src="/img/arrow.svg" alt="Arrow" /></button>
+                                <button disabled={isLoading} onClick={onClickOrder} className="greenButton">Checkout <img src={process.env.PUBLIC_URL +"/img/arrow.svg"} alt="Arrow" /></button>
                             </div>
                         </>
 
@@ -98,7 +101,7 @@ function Drawer({ onClose, onRemoveItem, opened, items = [] }) {
                         <Info 
                         title={isOrderCompleted ? "Order completed" : "Empty cart" }
                         description={isOrderCompleted ? `Your order #${orderId} will be delivered` :"You need to add at least one pair of sneakers to make order"} 
-                        image={isOrderCompleted ? "/img/order-completed.png" : "/img/empty-cart.png"}/>
+                        image={isOrderCompleted ? process.env.PUBLIC_URL +"/img/order-completed.png" : process.env.PUBLIC_URL +"/img/empty-cart.png"}/>
 
                 } 
 

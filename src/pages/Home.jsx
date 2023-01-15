@@ -34,15 +34,16 @@ function Home({
       ))
 
     }
+
     return (
         
         <div className="content p-40">
-             <Slider/>
+            <Slider loading={isLoading}/>
         <div className="d-flex align-center justify-between mb-40">
           {/* если что-то есть в поиске - то выводим это, если поиск пуст - то "All sneakers" */}
           <h1>{searchValue ? `Search: ${searchValue}` : 'All sneakers'}</h1>
           <div className="search-block d-flex">
-            <img src="/img/search.svg" alt="Search" />
+            <img src={process.env.PUBLIC_URL +"/img/search.svg"} alt="Search" />
             {/* контролирумый input - все что мы пишем в него - получаем в переменную useState и передает в свой же value */}
             <input onChange={onChangeSearchInput} value={searchValue} placeholder="Search..." />
           </div>

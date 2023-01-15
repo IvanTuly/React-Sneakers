@@ -5,10 +5,10 @@ import axios from "axios";
 import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 
-import Header from "./components/Header";
+import Header from "./components/Header/Header";
 import Drawer from "./components/Drawer/Drawer";
 import Orders from "./pages/Orders";
-import Slider from "./components/Slider/Slider";
+
 
 
 //Context - 
@@ -17,6 +17,8 @@ export const AppContext = React.createContext({});
 function App() {
   //массив для json файла с данными кроссовок
   const [items, setItems] = React.useState([])
+  //массив для хранения специальных предложений
+  const [offers, setOffers] = React.useState([])
   //массив для хранения товаров в корзине
   const [cartItems, setCartItems] = React.useState([])
   //массив для хранения закладок 
@@ -42,10 +44,11 @@ function App() {
           //Через библиотеку axios отправляя get запрос получаем сразу результат без обработки json кроссовок, корзины и избранных
           //Promise.all позволяет отправить сразу несколько запросов. promise - который будет выполнять массив prommise axios.get - promise и вернет массив выполненных promise
           //если хотя бы один запрос не выполнется, то мы сразу получим error, хотя другие запросы могли пройти - иногда такой вариант может не подходить при разработке
-          const [cartResponse, favoritesResponse,itemsResponse] = await Promise.all([
+          const [cartResponse, favoritesResponse,itemsResponse, offerResponse] = await Promise.all([
             axios.get("https://react-sneakers-5eab4-default-rtdb.europe-west1.firebasedatabase.app/cart.json"), 
             axios.get("https://react-sneakers-5eab4-default-rtdb.europe-west1.firebasedatabase.app/favorites.json"), 
-            axios.get("https://react-sneakers-5eab4-default-rtdb.europe-west1.firebasedatabase.app/items.json")
+            axios.get("https://react-sneakers-5eab4-default-rtdb.europe-west1.firebasedatabase.app/items.json"), 
+            axios.get("https://react-sneakers-5eab4-default-rtdb.europe-west1.firebasedatabase.app/offers.json")
           ]);
   
           //устанавливаем отображение страницы c данными
@@ -55,6 +58,8 @@ function App() {
           cartResponse.data === null ? setCartItems([]) : setCartItems(Object.values(cartResponse.data));
   
           favoritesResponse.data === null ? setFavorites([]) : setFavorites(Object.values(favoritesResponse.data));
+
+          offerResponse.data === null ? setOffers([]) : setOffers(Object.values(offerResponse.data));
   
           setItems(Object.values(itemsResponse.data))
   
@@ -143,7 +148,7 @@ function App() {
   return ( 
 
     //все приложение будет знать, что есть в AppContext
-  <AppContext.Provider value={{items, cartItems, favorites, isItemAdded, onAddToFavorite, onAddToCart, setCartOpened, setCartItems}}>
+  <AppContext.Provider value={{items, offers, cartItems, favorites, isItemAdded, onAddToFavorite, onAddToCart, setCartOpened, setCartItems}}>
     <div className="wrapper clear">
     
     

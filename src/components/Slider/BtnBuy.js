@@ -3,7 +3,6 @@ import './Slider.scss'
 
 
 export default function BtnBuy({buy, btnColor}) {
-    console.log(btnColor)
   return (
     <button 
         style={{

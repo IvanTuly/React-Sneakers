@@ -6,7 +6,7 @@ function Favorites() {
   
   //используем массив favorites из AppContext c помощью useContext
   //если useContext изменится все данные favorites сохраняем в переменную здесь и делаем ререндер
-    const {favorites, onAddToFavorite} = React.useContext(AppContext);
+    const {favorites, onAddToFavorite, onAddToCart} = React.useContext(AppContext);
 
     return (
         <div className="content p-40">
@@ -23,6 +23,7 @@ function Favorites() {
             key={item.id}
             favorited={true}
             onFavorite={onAddToFavorite}
+            onPlus ={(obj) => onAddToCart(obj)}
             //в конце передаем объект item
             {... item}
           />
