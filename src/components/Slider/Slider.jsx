@@ -49,7 +49,7 @@ export default function Slider({ loading = false }) {
                                 className={slideIndex === index + 1 ? "slide active-anim" : "slide"}>
                                 <img src={process.env.PUBLIC_URL + `/img/slider/Imgs/img${index + 1}.jpg`} alt="Offer photo" />
 
-                                <BtnBuy buy={obj => { buySneakers(obj) }} btnColor={obj.color} />
+                                {/* <BtnBuy buy={obj => { buySneakers(obj) }} btnColor={obj.color} /> */}
                             </div>
 
                             <BtnSlider moveSlide={nextSlide} direction={"next"} />
