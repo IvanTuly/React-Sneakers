@@ -44,20 +44,20 @@ function Card({
         <div className={styles.sneakerCard}>
             {
                 loading ?
-                    <ContentLoader
-                        speed={2}
-                        width={150}
-                        height={187}
-                        viewBox="0 0 150 187"
-                        backgroundColor="#f3f3f3"
-                        foregroundColor="#ecebeb"
-                    >
-                        <rect x="0" y="0" rx="10" ry="10" width="150" height="90" />
-                        <rect x="0" y="107" rx="3" ry="3" width="150" height="15" />
-                        <rect x="0" y="130" rx="3" ry="3" width="93" height="15" />
-                        <rect x="118" y="155" rx="8" ry="8" width="32" height="32" />
-                        <rect x="0" y="160" rx="8" ry="8" width="80" height="24" />
-                    </ContentLoader>
+                <ContentLoader 
+                speed={2}
+                width={240}
+                height={340}
+                viewBox="0 0 240 340"
+                backgroundColor="#f3f3f3"
+                foregroundColor="#ecebeb"
+              >
+    <rect x="0" y="0" rx="0" ry="0" width="240" height="240" /> 
+    <rect x="185" y="270" rx="0" ry="0" width="45" height="45" /> 
+    <rect x="13" y="245" rx="0" ry="0" width="220" height="12" /> 
+    <rect x="13" y="268" rx="0" ry="0" width="130" height="12" /> 
+    <rect x="13" y="295" rx="0" ry="0" width="100" height="11" />
+              </ContentLoader>
                     : 
                             
                 
