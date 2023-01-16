@@ -167,7 +167,7 @@ function App() {
 
 
       <Routes>
-          <Route path="/"
+          <Route path="/react-sneakers/"
             element={
               <Home 
                 items={items}
@@ -182,13 +182,13 @@ function App() {
             }
           ></Route>
 
-          <Route path="/favorites" 
+          <Route path="/react-sneakers/favorites" 
             element={
               <Favorites/>
             }
           ></Route>
 
-          <Route path="/orders" 
+          <Route path="/react-sneakers/orders" 
             element={
               <Orders/>
             }
