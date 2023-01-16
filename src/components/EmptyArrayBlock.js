@@ -11,7 +11,7 @@ export default function EmptyArrayBlock({pageTitle, title, subTitle}) {
       <img src={process.env.PUBLIC_URL +"/img/smile.png"} alt="Sad Smile" />
       <h2>{title}</h2>
       <p>{subTitle}</p>
-      <Link to="/">
+      <Link to="/React-Sneakers/">
       <button onClick={console.log("click")} className="greenButton w10p">
           <img src={process.env.PUBLIC_URL +"/img/arrow.svg"} alt="arrow" /> Choose sneakers
       </button>
