@@ -21,7 +21,7 @@ A React-based online shopping platform for sneakers, built with modern web techn
 To get started with this project, follow these steps:
 
 1. Clone this repository to your local machine
-git clone https://github.com/YOUR_USERNAME/sneakers-online-shop.git
+git clone https://github.com/IvanTuly/react-sneakers
 
 2. Navigate to the project directory
 cd sneakers-online-shop
